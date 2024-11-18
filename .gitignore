@@ -142,9 +142,9 @@ dmypy.json
 src/utils/__pycache__/*
 src/logs/*
 
-# Vscode settings
-.vscode
-
 .DS_Store
 
 *.xlsx
+
+# VS Code
+.vscode/PythonImportHelper-v2-Completion.json
