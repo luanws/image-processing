@@ -5,8 +5,9 @@ from matplotlib import pyplot as plt
 
 def read_image(image_name: str) -> np.ndarray:
     image_path = f"assets/images/{image_name}"
-    return imageio.imread(image_path)
-
+    image = imageio.imread(image_path)
+    image = image.astype(np.float_)
+    return image
 
 def plot_image(image: np.ndarray):
     plt.imshow(image, cmap="gray")

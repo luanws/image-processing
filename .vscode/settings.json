@@ -10,10 +10,13 @@
         "**/__pycache__": true
     },
     "cSpell.words": [
+        "bincount",
+        "dtype",
         "figsize",
         "imread",
         "imshow",
         "ndarray",
+        "ndimage",
         "processings",
         "TOPHAT"
     ]
