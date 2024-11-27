@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from scipy.ndimage import binary_dilation, generate_binary_structure, label
+from scipy.ndimage import grey_dilation, grey_erosion, label
 from skimage import morphology
 
 
@@ -98,3 +98,19 @@ def reconstruction_by_erosion(image: np.ndarray, marker: np.ndarray) -> np.ndarr
     marker = np.maximum(marker, image)
     reconstructed = morphology.reconstruction(marker, image, method="erosion")
     return reconstructed
+
+
+def h_maxima_transform(image: np.ndarray, h: float, footprint=(3, 3)) -> np.ndarray:
+    elevated_image = image + h
+    reconstructed = grey_dilation(
+        np.minimum(elevated_image, image.max()), footprint=np.ones(footprint)
+    )
+    return reconstructed - h
+
+
+def h_minima_transform(image: np.ndarray, h: float, footprint=(3, 3)) -> np.ndarray:
+    lowered_image = image - h
+    reconstructed = grey_erosion(
+        np.maximum(lowered_image, image.min()), footprint=np.ones(footprint)
+    )
+    return reconstructed + h
