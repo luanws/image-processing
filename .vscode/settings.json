@@ -13,6 +13,7 @@
         "bincount",
         "dtype",
         "figsize",
+        "heaviside",
         "imread",
         "imshow",
         "ndarray",

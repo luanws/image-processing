@@ -114,3 +114,26 @@ def h_minima_transform(image: np.ndarray, h: float, footprint=(3, 3)) -> np.ndar
         np.maximum(lowered_image, image.min()), footprint=np.ones(footprint)
     )
     return reconstructed + h
+
+
+def remove_stain(image: np.ndarray, min_size: int) -> np.ndarray:
+    labels, number_of_labels = label(image)
+    count = np.bincount(labels.flatten())[1:]
+    mask = np.zeros_like(labels, dtype=np.bool_)
+    for i in range(1, number_of_labels + 1):
+        if count[i - 1] >= min_size:
+            mask |= labels == i
+    image_without_stain = np.zeros_like(image)
+    image_without_stain[mask] = image[mask]
+    return image_without_stain
+
+
+def heaviside(image: np.ndarray, threshold: float) -> np.ndarray:
+    return np.heaviside(image - threshold, 1)
+
+
+def enhance_contrast(image: np.ndarray, size: int = 4, iterations=5) -> np.ndarray:
+    kernel = np.ones((size, size), np.uint8)
+    dilated = cv2.dilate(image, kernel, iterations=iterations)
+    eroded = cv2.erode(dilated, kernel, iterations=iterations)
+    return eroded
